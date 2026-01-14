@@ -36,7 +36,6 @@ import tools.jackson.dataformat.protobuf.schema.ProtobufSchemaLoader;
 import org.apache.avro.Schema;
 import org.jsfr.json.provider.JacksonProvider;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -83,7 +82,6 @@ public class JacksonParserTest extends JsonSurferTest<ObjectNode, ArrayNode, Jso
     }
 
     @Test
-    @Ignore
     public void testProtobufParser() throws Exception {
         JsonPathListener mockListener = mock(JsonPathListener.class);
 
@@ -103,7 +101,6 @@ public class JacksonParserTest extends JsonSurferTest<ObjectNode, ArrayNode, Jso
 
         byte[] protobufData = mapper.writer(schema)
                 .writeValueAsBytes(empl);
-        // TODO Jackson's bug to be fixed in 2.9.6
         JsonSurfer protobufSurfer = new JsonSurfer(new JacksonParser(new ProtobufMapper(), schema), provider);
         SurfingConfiguration config = protobufSurfer.configBuilder().bind("$.name", mockListener).build();
         protobufSurfer.surf(new ByteArrayInputStream(protobufData), config);
