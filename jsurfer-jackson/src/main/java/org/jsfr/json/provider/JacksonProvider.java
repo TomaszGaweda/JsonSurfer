@@ -31,7 +31,6 @@ import tools.jackson.databind.node.ArrayNode;
 import tools.jackson.databind.node.JsonNodeFactory;
 import tools.jackson.databind.node.NullNode;
 import tools.jackson.databind.node.ObjectNode;
-import org.jsfr.json.exception.JsonSurfingException;
 
 import java.math.BigInteger;
 
