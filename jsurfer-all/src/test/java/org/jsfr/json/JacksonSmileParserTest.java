@@ -24,16 +24,16 @@
 
 package org.jsfr.json;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.dataformat.smile.SmileFactory;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
+import tools.jackson.dataformat.smile.SmileFactory;
 import org.jsfr.json.provider.JacksonProvider;
 import org.junit.Before;
+import tools.jackson.dataformat.smile.SmileMapper;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 public class JacksonSmileParserTest extends JsonSurferTest<ObjectNode, ArrayNode, JsonNode> {
@@ -41,11 +41,11 @@ public class JacksonSmileParserTest extends JsonSurferTest<ObjectNode, ArrayNode
     @Before
     public void setUp() {
         provider = new JacksonProvider();
-        surfer = new JsonSurfer(new JacksonParser(new SmileFactory()), provider);
+        surfer = new JsonSurfer(new JacksonParser(new SmileMapper()), provider);
     }
 
     @Override
-    protected InputStream read(String resourceName) throws IOException {
+    protected InputStream read(String resourceName) {
         ObjectMapper om = new ObjectMapper();
         JsonNode node = om.readTree(this.readAsString(resourceName));
         SmileFactory f = new SmileFactory();
@@ -55,17 +55,17 @@ public class JacksonSmileParserTest extends JsonSurferTest<ObjectNode, ArrayNode
     }
 
     @Override
-    public void testCollectAllFromString() throws Exception {
+    public void testCollectAllFromString() {
         // skip non-byte-based source
     }
 
     @Override
-    public void testCollectOneFromString() throws Exception {
+    public void testCollectOneFromString() {
         // skip non-byte-based source
     }
 
     @Override
-    public void testWildcardAtRoot() throws Exception {
+    public void testWildcardAtRoot() {
         // skip non-byte-based source
     }
 

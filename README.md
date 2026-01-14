@@ -223,7 +223,7 @@ By importing [Jackson binary format backend](https://github.com/FasterXML/jackso
 For example, if you want to surfer with CBOR data, firstly, CBOR format backend need to be imported as dependency.
 ```
     <dependency>
-        <groupId>com.fasterxml.jackson.dataformat</groupId>
+        <groupId>tools.jackson.dataformat</groupId>
         <artifactId>jackson-dataformat-cbor</artifactId>
         <version>${jackson.version}</version>
     </dependency>

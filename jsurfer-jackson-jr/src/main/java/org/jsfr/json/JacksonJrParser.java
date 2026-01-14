@@ -24,11 +24,12 @@
 
 package org.jsfr.json;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.core.json.async.NonBlockingJsonParser;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JsonToken;
+import tools.jackson.core.json.async.NonBlockingByteArrayJsonParser;
 import org.jsfr.json.provider.JsonProvider;
+import tools.jackson.jr.ob.JSON;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,9 +39,9 @@ public class JacksonJrParser implements JsonParserAdapter {
 
     private static class JacksonNonblockingParser extends JacksonResumableParser implements NonBlockingParser {
 
-        private NonBlockingJsonParser nonBlockingJsonParser;
+        private final NonBlockingByteArrayJsonParser nonBlockingJsonParser;
 
-        JacksonNonblockingParser(NonBlockingJsonParser jsonParser, SurfingContext context) {
+        JacksonNonblockingParser(NonBlockingByteArrayJsonParser jsonParser, SurfingContext context) {
             super(jsonParser, context);
             this.nonBlockingJsonParser = jsonParser;
         }
@@ -87,17 +88,17 @@ public class JacksonJrParser implements JsonParserAdapter {
             final JsonProvider jsonProvider = context.getConfig().getJsonProvider();
             this.stringHolder = new AbstractPrimitiveHolder(context.getConfig()) {
                 @Override
-                public Object doGetValue() throws IOException {
-                    return jsonProvider.primitive(jsonParser.getText());
+                public Object doGetValue() {
+                    return jsonProvider.primitive(jsonParser.getString());
                 }
 
                 @Override
-                public void doSkipValue() throws IOException {
+                public void doSkipValue() {
                 }
             };
             this.longHolder = new AbstractPrimitiveHolder(context.getConfig()) {
                 @Override
-                public Object doGetValue() throws IOException {
+                public Object doGetValue() {
                     if (jsonParser.getNumberType() == JsonParser.NumberType.BIG_INTEGER) {
                         return jsonProvider.primitive(jsonParser.getBigIntegerValue());
                     }  else {
@@ -171,8 +172,8 @@ public class JacksonJrParser implements JsonParserAdapter {
                     case END_ARRAY:
                         context.endArray();
                         break;
-                    case FIELD_NAME:
-                        context.startObjectEntry(jsonParser.getCurrentName());
+                    case PROPERTY_NAME:
+                        context.startObjectEntry(jsonParser.currentName());
                         break;
                     case VALUE_STRING:
                         stringHolder.init();
@@ -215,10 +216,10 @@ public class JacksonJrParser implements JsonParserAdapter {
      */
     public static final JacksonJrParser INSTANCE = new JacksonJrParser();
 
-    private final JsonFactory factory;
+    private final JSON json;
 
     public JacksonJrParser() {
-        this.factory = new JsonFactory();
+        this.json = JSON.builder().build();
     }
 
     @Override
@@ -239,7 +240,7 @@ public class JacksonJrParser implements JsonParserAdapter {
     @Override
     public ResumableParser createResumableParser(Reader reader, SurfingContext context) {
         try {
-            final JsonParser jp = this.factory.createParser(reader);
+            final JsonParser jp = json.createParser(reader);
             return createResumableParser(jp, context);
         } catch (Exception e) {
             context.getConfig().getErrorHandlingStrategy().handleParsingException(e);
@@ -250,7 +251,7 @@ public class JacksonJrParser implements JsonParserAdapter {
     @Override
     public ResumableParser createResumableParser(String json, SurfingContext context) {
         try {
-            final JsonParser jp = this.factory.createParser(json);
+            final JsonParser jp = this.json.createParser(json);
             return createResumableParser(jp, context);
         } catch (Exception e) {
             context.getConfig().getErrorHandlingStrategy().handleParsingException(e);
@@ -261,7 +262,7 @@ public class JacksonJrParser implements JsonParserAdapter {
     @Override
     public ResumableParser createResumableParser(InputStream json, SurfingContext context) {
         try {
-            final JsonParser jp = this.factory.createParser(json);
+            final JsonParser jp = this.json.createParser(json);
             return createResumableParser(jp, context);
         } catch (Exception e) {
             context.getConfig().getErrorHandlingStrategy().handleParsingException(e);
@@ -272,9 +273,12 @@ public class JacksonJrParser implements JsonParserAdapter {
     @Override
     public NonBlockingParser createNonBlockingParser(SurfingContext context) {
         try {
-            NonBlockingJsonParser jp = (NonBlockingJsonParser) factory.createNonBlockingByteArrayParser();
+
+            NonBlockingByteArrayJsonParser jp = json
+                    .tokenStreamFactory()
+                    .createNonBlockingByteArrayParser(json);
             return new JacksonNonblockingParser(jp, context);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             context.getConfig().getErrorHandlingStrategy().handleParsingException(e);
         }
         return null;

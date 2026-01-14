@@ -24,13 +24,14 @@
 
 package org.jsfr.json;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.dataformat.cbor.CBORFactory;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
+import tools.jackson.dataformat.cbor.CBORFactory;
 import org.jsfr.json.provider.JacksonProvider;
 import org.junit.Before;
+import tools.jackson.dataformat.cbor.CBORMapper;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class JacksonCBORParserTest extends JsonSurferTest<ObjectNode, ArrayNode,
     @Before
     public void setUp() {
         provider = new JacksonProvider();
-        surfer = new JsonSurfer(new JacksonParser(new CBORFactory()), provider);
+        surfer = new JsonSurfer(new JacksonParser(new CBORMapper()), provider);
     }
 
     @Override

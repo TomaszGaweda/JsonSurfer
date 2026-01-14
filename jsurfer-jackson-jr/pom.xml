@@ -61,7 +61,7 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.jr</groupId>
+            <groupId>tools.jackson.jr</groupId>
             <artifactId>jackson-jr-objects</artifactId>
             <version>${jackson.version}</version>
         </dependency>

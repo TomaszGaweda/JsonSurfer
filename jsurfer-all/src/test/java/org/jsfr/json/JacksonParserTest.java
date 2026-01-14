@@ -24,17 +24,15 @@
 
 package org.jsfr.json;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.dataformat.avro.AvroFactory;
-import com.fasterxml.jackson.dataformat.avro.AvroMapper;
-import com.fasterxml.jackson.dataformat.avro.AvroSchema;
-import com.fasterxml.jackson.dataformat.protobuf.ProtobufFactory;
-import com.fasterxml.jackson.dataformat.protobuf.ProtobufMapper;
-import com.fasterxml.jackson.dataformat.protobuf.schema.ProtobufSchema;
-import com.fasterxml.jackson.dataformat.protobuf.schema.ProtobufSchemaLoader;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
+import tools.jackson.dataformat.avro.AvroMapper;
+import tools.jackson.dataformat.avro.AvroSchema;
+import tools.jackson.dataformat.protobuf.ProtobufMapper;
+import tools.jackson.dataformat.protobuf.schema.ProtobufSchema;
+import tools.jackson.dataformat.protobuf.schema.ProtobufSchemaLoader;
 import org.apache.avro.Schema;
 import org.jsfr.json.provider.JacksonProvider;
 import org.junit.Before;
@@ -106,7 +104,7 @@ public class JacksonParserTest extends JsonSurferTest<ObjectNode, ArrayNode, Jso
         byte[] protobufData = mapper.writer(schema)
                 .writeValueAsBytes(empl);
         // TODO Jackson's bug to be fixed in 2.9.6
-        JsonSurfer protobufSurfer = new JsonSurfer(new JacksonParser(new ProtobufFactory(), schema), provider);
+        JsonSurfer protobufSurfer = new JsonSurfer(new JacksonParser(new ProtobufMapper(), schema), provider);
         SurfingConfiguration config = protobufSurfer.configBuilder().bind("$.name", mockListener).build();
         protobufSurfer.surf(new ByteArrayInputStream(protobufData), config);
         verify(mockListener).onValue(eq(provider.primitive("foo")), any(ParsingContext.class));
@@ -137,7 +135,7 @@ public class JacksonParserTest extends JsonSurferTest<ObjectNode, ArrayNode, Jso
         byte[] avroData = mapper.writer(schema)
                 .writeValueAsBytes(empl);
 
-        JsonSurfer avroSurfer = new JsonSurfer(new JacksonParser(new AvroFactory(), schema), provider);
+        JsonSurfer avroSurfer = new JsonSurfer(new JacksonParser(new AvroMapper(), schema), provider);
         SurfingConfiguration config = avroSurfer.configBuilder().bind("$.name", mockListener).build();
         avroSurfer.surf(new ByteArrayInputStream(avroData), config);
         verify(mockListener).onValue(eq(provider.primitive("foo")), any(ParsingContext.class));

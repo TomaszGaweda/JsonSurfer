@@ -24,8 +24,8 @@
 
 package org.jsfr.json;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import org.jsfr.json.provider.JacksonProvider;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Created by Leo on 2017/4/1.
@@ -40,7 +40,7 @@ public final class JsonSurferJackson {
     private JsonSurferJackson() {
     }
 
-    public static JsonSurfer createSurfer(JsonFactory factory) {
-      return new JsonSurfer(new JacksonParser(factory), JacksonProvider.INSTANCE);
+    public static JsonSurfer createSurfer(ObjectMapper objectMapper) {
+      return new JsonSurfer(new JacksonParser(objectMapper), JacksonProvider.INSTANCE);
     }
 }

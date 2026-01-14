@@ -24,13 +24,13 @@
 
 package org.jsfr.json.provider;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.NullNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.JsonNodeFactory;
+import tools.jackson.databind.node.NullNode;
+import tools.jackson.databind.node.ObjectNode;
 import org.jsfr.json.exception.JsonSurfingException;
 
 import java.math.BigInteger;
@@ -42,15 +42,15 @@ public class JacksonProvider implements JsonProvider<ObjectNode, ArrayNode, Json
      */
     public static final JacksonProvider INSTANCE = new JacksonProvider();
 
-    private final ObjectMapper om;
+    private final JsonMapper om;
 
     private final JsonNodeFactory factory;
 
     public JacksonProvider() {
-        this(new ObjectMapper());
+        this(new JsonMapper());
     }
 
-    public JacksonProvider(ObjectMapper om) {
+    public JacksonProvider(JsonMapper om) {
         this.om = om;
         this.factory = om.getNodeFactory();
     }
@@ -112,7 +112,7 @@ public class JacksonProvider implements JsonProvider<ObjectNode, ArrayNode, Json
 
     @Override
     public JsonNode primitive(String value) {
-        return factory.textNode(value);
+        return factory.stringNode(value);
     }
 
     @Override
@@ -125,15 +125,18 @@ public class JacksonProvider implements JsonProvider<ObjectNode, ArrayNode, Json
         try {
             if (value == null) {
                 return null;
-            } else if (om.canDeserialize(om.getTypeFactory().constructType(tClass))) {
-                return om.treeToValue(value, tClass);
             } else {
-                return tClass.cast(value);
+                try {
+                    return om.treeToValue(value, tClass);
+                } catch (JacksonException e) {
+                    return tClass.cast(value);
+
+                }
             }
-        } catch (JsonProcessingException e) {
-            throw new JsonSurfingException(e);
+            } catch (JacksonException e) {
+                throw new JsonSurfingException(e);
+            }
         }
-    }
 
     @Override
     public boolean isPrimitiveNull(Object value) {
@@ -164,7 +167,7 @@ public class JacksonProvider implements JsonProvider<ObjectNode, ArrayNode, Json
         if (!isPrimitive) {
             return false;
         }
-        return ((JsonNode) value).isTextual();
+        return ((JsonNode) value).isString();
     }
 
 }
