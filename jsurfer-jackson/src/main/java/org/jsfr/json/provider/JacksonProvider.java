@@ -122,21 +122,16 @@ public class JacksonProvider implements JsonProvider<ObjectNode, ArrayNode, Json
 
     @Override
     public <T> T cast(JsonNode value, Class<T> tClass) {
-        try {
-            if (value == null) {
-                return null;
-            } else {
-                try {
-                    return om.treeToValue(value, tClass);
-                } catch (JacksonException e) {
-                    return tClass.cast(value);
-
-                }
-            }
+        if (value == null) {
+            return null;
+        } else {
+            try {
+                return om.treeToValue(value, tClass);
             } catch (JacksonException e) {
-                throw new JsonSurfingException(e);
+                return tClass.cast(value);
             }
         }
+    }
 
     @Override
     public boolean isPrimitiveNull(Object value) {
