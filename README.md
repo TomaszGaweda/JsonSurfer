@@ -70,26 +70,26 @@ Jackson, FastJson and JsonSimple. Choose one and add to your POM.
 ```xml
 
 <dependency>
-    <groupId>com.hazelcast.jsurfer</groupId>
-    <artifactId>jsurfer-gson</artifactId>
+    <groupId>com.hazelcast.jsurfer</groupId>
+    <artifactId>jsurfer-gson</artifactId>
     <version>0.10</version>
 </dependency>
 
 <dependency>
-    <groupId>com.hazelcast.jsurfer</groupId>
-    <artifactId>jsurfer-jackson</artifactId>
+    <groupId>com.hazelcast.jsurfer</groupId>
+    <artifactId>jsurfer-jackson</artifactId>
     <version>0.10</version>
 </dependency>
 
 <dependency>
-    <groupId>com.hazelcast.jsurfer</groupId>
-    <artifactId>jsurfer-fastjson</artifactId>
+    <groupId>com.hazelcast.jsurfer</groupId>
+    <artifactId>jsurfer-fastjson</artifactId>
     <version>0.10</version>
 </dependency>
 
 <dependency>
-    <groupId>com.hazelcast.jsurfer</groupId>
-    <artifactId>jsurfer-jsonsimple</artifactId>
+    <groupId>com.hazelcast.jsurfer</groupId>
+    <artifactId>jsurfer-jsonsimple</artifactId>
     <version>0.10</version>
 </dependency>
 
@@ -121,7 +121,7 @@ or
 ```
 3. JsonSimple
 ```java
-        // use json-simple parser and json-simple provider to deserialize json into json-simple model i.e.org.json.simple.JSONObject or org.json.simple.JSONArray
+        // use json-simple parser and json-simple provider to deserialize json into json-simple model i.e.org.json.simple.JSONObject or org.json.simple.JSONArray
         JsonSurfer surfer = new JsonSurfer(JsonSimpleParser.INSTANCE, JsonSimpleProvider.INSTANCE);
 ```
 or
@@ -218,7 +218,7 @@ which prints "Leo".
 which prints "bar".
 * If you want to **process POJO with full JsonPath feature**, you can convert the POJO into binary format and then surfer on it.
 #### Binaray format (Jackson only)
-By importing [Jackson binary format backend](https://github.com/FasterXML/jackson-dataformats-binary), JsonSurfer is capable to surfer with multiple binary object representation formats such as Avro, CBOR, Protobuf(A known bug to be fixed in Jackson 2.9.6), Smile and Ion.
+By importing [Jackson binary format backend](https://github.com/FasterXML/jackson-dataformats-binary), JsonSurfer is capable to surfer with multiple binary object representation formats such as Avro, CBOR, Protobuf, Smile and Ion.
 
 For example, if you want to surfer with CBOR data, firstly, CBOR format backend need to be imported as dependency.
 ```
