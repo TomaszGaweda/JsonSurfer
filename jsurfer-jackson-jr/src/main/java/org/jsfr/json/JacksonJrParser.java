@@ -273,7 +273,6 @@ public class JacksonJrParser implements JsonParserAdapter {
     @Override
     public NonBlockingParser createNonBlockingParser(SurfingContext context) {
         try {
-
             NonBlockingByteArrayJsonParser jp = json
                     .tokenStreamFactory()
                     .createNonBlockingByteArrayParser(json);
