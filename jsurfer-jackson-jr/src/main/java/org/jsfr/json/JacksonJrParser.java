@@ -27,8 +27,11 @@ package org.jsfr.json;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonParser;
 import tools.jackson.core.JsonToken;
+import tools.jackson.core.json.JsonFactory;
+import tools.jackson.core.json.JsonReadFeature;
 import tools.jackson.core.json.async.NonBlockingByteArrayJsonParser;
 import org.jsfr.json.provider.JsonProvider;
+import tools.jackson.jr.annotationsupport.JacksonAnnotationExtension;
 import tools.jackson.jr.ob.JSON;
 
 import java.io.IOException;
@@ -219,7 +222,18 @@ public class JacksonJrParser implements JsonParserAdapter {
     private final JSON json;
 
     public JacksonJrParser() {
-        this.json = JSON.builder().build();
+        JsonFactory jf = JsonFactory.builder()
+                                    .enable(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER)
+                                    .enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS)
+                                    .build();
+        JSON.Builder builder = JSON.builder(jf).enable(JSON.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
+        try {
+            Class.forName("com.fasterxml.jackson.annotation.JacksonAnnotation", false,
+                    JacksonJrParser.class.getClassLoader());
+            builder.register(JacksonAnnotationExtension.std);
+        } catch (ClassNotFoundException ignored) {
+        }
+        this.json = builder.build();
     }
 
     @Override
