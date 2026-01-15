@@ -228,8 +228,8 @@ public class JacksonParser implements JsonParserAdapter {
     }
 
     public JacksonParser(ObjectMapper mapper, FormatSchema formatSchema) {
-        this.formatSchema = formatSchema;
         this.objectMapper = mapper;
+        this.formatSchema = formatSchema;
     }
     @Override
     public void parse(Reader reader, final SurfingContext context) {
