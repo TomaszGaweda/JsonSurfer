@@ -11,7 +11,7 @@ jobs:
     if: github.repository_owner == 'hazelcast'
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Read Java Config
         run: cat ${{ github.workspace }}/.github/java-config.env >> $GITHUB_ENV
 
