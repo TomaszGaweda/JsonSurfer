@@ -71,14 +71,15 @@ public class BenchmarkParseLargeJson {
         jacksonSurfer = JsonSurferJackson.INSTANCE;
         simpleSurfer = JsonSurferJsonSimple.INSTANCE;
         fastjsonSurfer = JsonSurferFastJson.INSTANCE;
-        JsonPathListener blackHoleListener = new JsonPathListener() {
-            @Override
-            public void onValue(Object value, ParsingContext context) {
-                LOGGER.trace("Properties: {}", value);
-                blackhole.consume(value);
-            }
+        JsonPathListener blackHoleListener = (value, context) -> {
+            LOGGER.trace("Properties: {}", value);
+            blackhole.consume(value);
         };
-        surfingConfiguration = SurfingConfiguration.builder().bind(jsonPath, blackHoleListener).skipOverlappedPath().withCharset(StandardCharsets.UTF_8).build();
+        surfingConfiguration = SurfingConfiguration.builder()
+                                                   .bind(jsonPath, blackHoleListener)
+                                                   .skipOverlappedPath()
+                                                   .withCharset(StandardCharsets.UTF_8)
+                                                   .build();
         json = Resources.toString(Resources.getResource("allthethings.json"), StandardCharsets.UTF_8);
     }
 

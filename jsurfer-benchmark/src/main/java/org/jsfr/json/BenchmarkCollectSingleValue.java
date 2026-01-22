@@ -80,7 +80,10 @@ public class BenchmarkCollectSingleValue {
         simpleSurfer = JsonSurferJsonSimple.INSTANCE;
         fastjsonSurfer = JsonSurferFastJson.INSTANCE;
         collectOneListener = new CollectOneListener(true);
-        surfingConfiguration = SurfingConfiguration.builder().bind("$.store.book[0].author", collectOneListener).withCharset(StandardCharsets.UTF_8).build();
+        surfingConfiguration = SurfingConfiguration.builder()
+                                                   .bind("$.store.book[0].author", collectOneListener)
+                                                   .withCharset(StandardCharsets.UTF_8)
+                                                   .build();
         json = Resources.toString(Resources.getResource("sample.json"), StandardCharsets.UTF_8);
     }
 
@@ -127,7 +130,11 @@ public class BenchmarkCollectSingleValue {
     @Benchmark
     public Object benchmarkGson() {
         JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
-        String value = jsonObject.getAsJsonObject("store").getAsJsonArray("book").get(0).getAsJsonObject().getAsJsonPrimitive("author").getAsString();
+        String value = jsonObject.getAsJsonObject("store")
+                                 .getAsJsonArray("book")
+                                 .get(0)
+                                 .getAsJsonObject().getAsJsonPrimitive("author")
+                                 .getAsString();
         LOGGER.trace("The author of the first book: {}", value);
         return value;
     }
