@@ -47,7 +47,6 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
@@ -140,9 +139,9 @@ public class BenchmarkCollectSingleValue {
     }
 
     @Benchmark
-    public Object benchmarkJackson() throws IOException {
+    public Object benchmarkJackson() {
         JsonNode jsonNode = om.readTree(json);
-        Iterator<JsonNode> books = jsonNode.get("store").get("book").elements();
+        Iterator<JsonNode> books = jsonNode.get("store").get("book").iterator();
         String value = books.next().get("author").asText();
         LOGGER.trace("The author of the first book: {}", value);
         return value;

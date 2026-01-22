@@ -87,9 +87,9 @@ public class BenchmarkParseLargeJsonWithoutStreaming {
     }
 
     @Benchmark
-    public void benchmarkRawJackson(Blackhole blackhole) throws IOException {
+    public void benchmarkRawJackson(Blackhole blackhole) {
         JsonNode node = om.readTree(json);
-        Iterator<JsonNode> iterator = node.get("builders").elements();
+        Iterator<JsonNode> iterator = node.get("builders").iterator();
         while (iterator.hasNext()) {
             JsonNode value = iterator.next().get("properties").get("branch");
             LOGGER.trace("json element: {}", value);
