@@ -27,6 +27,7 @@ package org.jsfr.json;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonParser;
 import tools.jackson.core.JsonToken;
+import tools.jackson.core.StreamReadConstraints;
 import tools.jackson.core.json.JsonFactory;
 import tools.jackson.core.json.JsonReadFeature;
 import tools.jackson.core.json.async.NonBlockingByteArrayJsonParser;
@@ -225,6 +226,9 @@ public class JacksonJrParser implements JsonParserAdapter {
         JsonFactory jf = JsonFactory.builder()
                                     .enable(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER)
                                     .enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS)
+                                    .streamReadConstraints(StreamReadConstraints.builder()
+                                                                                .maxNestingDepth(1000)
+                                                                                .build())
                                     .build();
         JSON.Builder builder = JSON.builder(jf).enable(JSON.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
         try {
