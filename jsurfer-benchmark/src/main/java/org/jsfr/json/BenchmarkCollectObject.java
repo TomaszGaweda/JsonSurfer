@@ -58,24 +58,18 @@ public class BenchmarkCollectObject {
     private String json;
 
     @Setup
-    public void setup() throws Exception {
+    public void setup(final Blackhole blackhole) throws Exception {
         gsonSurfer = JsonSurferGson.INSTANCE;
         jacksonSurfer = JsonSurferJackson.INSTANCE;
         simpleSurfer = JsonSurferJsonSimple.INSTANCE;
         fastjsonSurfer = JsonSurferFastJson.INSTANCE;
-        TypedJsonPathListener collectOneListener = new TypedJsonPathListener() {
-
-            private Blackhole blackhole = new Blackhole();
-
-            @Override
-            public void onTypedValue(Object value, ParsingContext context) {
-                blackhole.consume(value);
-            }
-        };
-        surfingConfiguration = SurfingConfiguration.builder().bind("$.store.book[*]", Map.class, collectOneListener).withCharset(StandardCharsets.UTF_8).build();
+        TypedJsonPathListener collectOneListener = (value, context) -> blackhole.consume(value);
+        surfingConfiguration = SurfingConfiguration.builder()
+                                                   .bind("$.store.book[*]", Map.class, collectOneListener)
+                                                   .withCharset(StandardCharsets.UTF_8)
+                                                   .build();
         json = Resources.toString(Resources.getResource("sample.json"), StandardCharsets.UTF_8);
     }
-
 
     @Benchmark
     public boolean benchmarkGsonWithJsonSurfer() {

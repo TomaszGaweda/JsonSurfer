@@ -17,6 +17,7 @@
         <jackson.version>2.20.0</jackson.version>
         <gson.version>2.13.2</gson.version>
         <fastjson.version>1.2.79</fastjson.version>
+        <logback.version>1.5.25</logback.version>
         <cobertura.maven.plugin.version>2.7</cobertura.maven.plugin.version>
         <maven.checkstyle.plugin.version>3.6.0</maven.checkstyle.plugin.version>
         <central.publishing.maven..plugin.version>0.10.0</central.publishing.maven..plugin.version>
@@ -66,6 +67,12 @@
     </repositories>
 
     <profiles>
+        <profile>
+            <id>benchmarks</id>
+            <modules>
+                <module>jsurfer-benchmark</module>
+            </modules>
+        </profile>
         <profile>
             <id>release</id>
             <build>
@@ -233,7 +240,6 @@
     </build>
 
     <modules>
-        <!--<module>jsurfer-benchmark</module>-->
         <module>jsurfer-core</module>
         <module>jsurfer-gson</module>
         <module>jsurfer-jackson</module>
@@ -247,7 +253,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.5.25</version>
+            <version>${logback.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

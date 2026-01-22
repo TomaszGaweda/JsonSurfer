@@ -74,7 +74,10 @@ public class BenchmarkParseLongText {
         simpleSurfer = JsonSurferJsonSimple.INSTANCE;
         fastjsonSurfer = JsonSurferFastJson.INSTANCE;
         collectOneListener = new CollectOneListener(true);
-        surfingConfiguration = SurfingConfiguration.builder().bind("$.findMe", collectOneListener).withCharset(StandardCharsets.UTF_8).build();
+        surfingConfiguration = SurfingConfiguration.builder()
+                                                   .bind("$.findMe", collectOneListener)
+                                                   .withCharset(StandardCharsets.UTF_8)
+                                                   .build();
         gson = new GsonBuilder().create();
         om = new ObjectMapper();
         json = Resources.toString(Resources.getResource("longText.json"), StandardCharsets.UTF_8);
