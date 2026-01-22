@@ -28,6 +28,7 @@ import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonParser;
 import tools.jackson.core.JsonToken;
 import tools.jackson.core.StreamReadConstraints;
+import tools.jackson.core.StreamWriteConstraints;
 import tools.jackson.core.json.JsonFactory;
 import tools.jackson.core.json.JsonReadFeature;
 import tools.jackson.core.json.async.NonBlockingByteArrayJsonParser;
@@ -229,6 +230,9 @@ public class JacksonJrParser implements JsonParserAdapter {
                                     .streamReadConstraints(StreamReadConstraints.builder()
                                                                                 .maxNestingDepth(1000)
                                                                                 .build())
+                                    .streamWriteConstraints(StreamWriteConstraints.builder()
+                                                                                  .maxNestingDepth(1000)
+                                                                                  .build())
                                     .build();
         JSON.Builder builder = JSON.builder(jf).enable(JSON.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
         try {
