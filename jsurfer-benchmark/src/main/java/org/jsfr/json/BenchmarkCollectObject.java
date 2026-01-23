@@ -52,6 +52,7 @@ public class BenchmarkCollectObject {
 
     private JsonSurfer gsonSurfer;
     private JsonSurfer jacksonSurfer;
+    private JsonSurfer jacksonJrSurfer;
     private JsonSurfer simpleSurfer;
     private JsonSurfer fastjsonSurfer;
     private SurfingConfiguration surfingConfiguration;
@@ -61,6 +62,7 @@ public class BenchmarkCollectObject {
     public void setup(final Blackhole blackhole) throws Exception {
         gsonSurfer = JsonSurferGson.INSTANCE;
         jacksonSurfer = JsonSurferJackson.INSTANCE;
+        jacksonJrSurfer = JsonSurferJacksonJr.INSTANCE;
         simpleSurfer = JsonSurferJsonSimple.INSTANCE;
         fastjsonSurfer = JsonSurferFastJson.INSTANCE;
         TypedJsonPathListener collectOneListener = (value, context) -> blackhole.consume(value);
@@ -80,6 +82,12 @@ public class BenchmarkCollectObject {
     @Benchmark
     public boolean benchmarkJacksonWithJsonSurfer() {
         jacksonSurfer.surf(json, surfingConfiguration);
+        return true;
+    }
+
+    @Benchmark
+    public boolean benchmarkJacksonJrWithJsonSurfer() {
+        jacksonJrSurfer.surf(json, surfingConfiguration);
         return true;
     }
 

@@ -61,6 +61,7 @@ public class BenchmarkParseLargeJson {
     private JsonSurfer simpleSurfer;
     private JsonSurfer gsonSurfer;
     private JsonSurfer jacksonSurfer;
+    private JsonSurfer jacksonJrSurfer;
     private JsonSurfer fastjsonSurfer;
     private SurfingConfiguration surfingConfiguration;
     private String json;
@@ -69,6 +70,7 @@ public class BenchmarkParseLargeJson {
     public void setup(final Blackhole blackhole) throws IOException {
         gsonSurfer = JsonSurferGson.INSTANCE;
         jacksonSurfer = JsonSurferJackson.INSTANCE;
+        jacksonJrSurfer = JsonSurferJacksonJr.INSTANCE;
         simpleSurfer = JsonSurferJsonSimple.INSTANCE;
         fastjsonSurfer = JsonSurferFastJson.INSTANCE;
         JsonPathListener blackHoleListener = (value, context) -> {
@@ -98,6 +100,12 @@ public class BenchmarkParseLargeJson {
     @Benchmark
     public Object benchmarkJacksonWithJsonSurfer() {
         jacksonSurfer.surf(json, surfingConfiguration);
+        return null;
+    }
+
+    @Benchmark
+    public Object benchmarkJacksonJrWithJsonSurfer() {
+        jacksonJrSurfer.surf(json, surfingConfiguration);
         return null;
     }
 

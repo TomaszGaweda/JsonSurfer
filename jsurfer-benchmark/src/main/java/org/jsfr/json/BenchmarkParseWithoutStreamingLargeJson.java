@@ -58,9 +58,9 @@ import java.util.concurrent.TimeUnit;
 @Threads(1)
 @Fork(1)
 @State(Scope.Benchmark)
-public class BenchmarkParseLargeJsonWithoutStreaming {
+public class BenchmarkParseWithoutStreamingLargeJson {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BenchmarkParseLargeJsonWithoutStreaming.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BenchmarkParseWithoutStreamingLargeJson.class);
 
     private Gson gson;
     private ObjectMapper om;
@@ -99,7 +99,7 @@ public class BenchmarkParseLargeJsonWithoutStreaming {
 
     public static void main(String[] args) throws RunnerException {
         Options opt = new OptionsBuilder()
-                .include(BenchmarkParseLargeJsonWithoutStreaming.class.getSimpleName())
+                .include(BenchmarkParseWithoutStreamingLargeJson.class.getSimpleName())
                 .build();
         new Runner(opt).run();
     }
