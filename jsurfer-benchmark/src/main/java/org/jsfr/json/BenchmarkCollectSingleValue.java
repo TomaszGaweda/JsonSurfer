@@ -77,7 +77,7 @@ public class BenchmarkCollectSingleValue {
         om = new ObjectMapper();
         gsonSurfer = JsonSurferGson.INSTANCE;
         jacksonSurfer = JsonSurferJackson.INSTANCE;
-        jacksonJrSurfer = JsonSurferJacksonJr.INSTANCE;
+        jacksonJrSurfer = JsonSurferJacksonCore.INSTANCE;
         simpleSurfer = JsonSurferJsonSimple.INSTANCE;
         fastjsonSurfer = JsonSurferFastJson.INSTANCE;
         collectOneListener = new CollectOneListener(true);
