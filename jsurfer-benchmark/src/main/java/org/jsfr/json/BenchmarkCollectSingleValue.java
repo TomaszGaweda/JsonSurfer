@@ -65,6 +65,7 @@ public class BenchmarkCollectSingleValue {
     private ObjectMapper om;
     private JsonSurfer gsonSurfer;
     private JsonSurfer jacksonSurfer;
+    private JsonSurfer jacksonJrSurfer;
     private JsonSurfer simpleSurfer;
     private JsonSurfer fastjsonSurfer;
     private SurfingConfiguration surfingConfiguration;
@@ -77,6 +78,7 @@ public class BenchmarkCollectSingleValue {
         om = new ObjectMapper();
         gsonSurfer = JsonSurferGson.INSTANCE;
         jacksonSurfer = JsonSurferJackson.INSTANCE;
+        jacksonJrSurfer = JsonSurferJacksonJr.INSTANCE;
         simpleSurfer = JsonSurferJsonSimple.INSTANCE;
         fastjsonSurfer = JsonSurferFastJson.INSTANCE;
         collectOneListener = new CollectOneListener(true);
@@ -114,6 +116,14 @@ public class BenchmarkCollectSingleValue {
     @Benchmark
     public Object benchmarkJacksonWithJsonSurfer() {
         jacksonSurfer.surf(json, surfingConfiguration);
+        Object value = collectOneListener.getValue();
+        LOGGER.trace("The author of the first book: {}", value);
+        return value;
+    }
+
+    @Benchmark
+    public Object benchmarkJacksonJrWithJsonSurfer() {
+        jacksonJrSurfer.surf(json, surfingConfiguration);
         Object value = collectOneListener.getValue();
         LOGGER.trace("The author of the first book: {}", value);
         return value;
