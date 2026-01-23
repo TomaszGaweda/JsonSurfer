@@ -27,14 +27,13 @@ package org.jsfr.json;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonParser;
 import tools.jackson.core.JsonToken;
+import tools.jackson.core.ObjectReadContext;
 import tools.jackson.core.StreamReadConstraints;
 import tools.jackson.core.StreamWriteConstraints;
 import tools.jackson.core.json.JsonFactory;
 import tools.jackson.core.json.JsonReadFeature;
 import tools.jackson.core.json.async.NonBlockingByteArrayJsonParser;
 import org.jsfr.json.provider.JsonProvider;
-import tools.jackson.jr.annotationsupport.JacksonAnnotationExtension;
-import tools.jackson.jr.ob.JSON;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -221,27 +220,19 @@ public class JacksonJrParser implements JsonParserAdapter {
      */
     public static final JacksonJrParser INSTANCE = new JacksonJrParser();
 
-    private final JSON json;
+    private final JsonFactory jsonFactory;
 
     public JacksonJrParser() {
-        JsonFactory jf = JsonFactory.builder()
-                                    .enable(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER)
-                                    .enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS)
-                                    .streamReadConstraints(StreamReadConstraints.builder()
+        jsonFactory = JsonFactory.builder()
+                                 .enable(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER)
+                                 .enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS)
+                                 .streamReadConstraints(StreamReadConstraints.builder()
                                                                                 .maxNestingDepth(1000)
                                                                                 .build())
-                                    .streamWriteConstraints(StreamWriteConstraints.builder()
+                                 .streamWriteConstraints(StreamWriteConstraints.builder()
                                                                                   .maxNestingDepth(1000)
                                                                                   .build())
-                                    .build();
-        JSON.Builder builder = JSON.builder(jf).enable(JSON.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
-        try {
-            Class.forName("com.fasterxml.jackson.annotation.JacksonAnnotation", false,
-                    JacksonJrParser.class.getClassLoader());
-            builder.register(JacksonAnnotationExtension.std);
-        } catch (ClassNotFoundException ignored) {
-        }
-        this.json = builder.build();
+                                 .build();
     }
 
     @Override
@@ -262,7 +253,7 @@ public class JacksonJrParser implements JsonParserAdapter {
     @Override
     public ResumableParser createResumableParser(Reader reader, SurfingContext context) {
         try {
-            final JsonParser jp = json.createParser(reader);
+            final JsonParser jp = jsonFactory.createParser(ObjectReadContext.empty(), reader);
             return createResumableParser(jp, context);
         } catch (Exception e) {
             context.getConfig().getErrorHandlingStrategy().handleParsingException(e);
@@ -273,7 +264,7 @@ public class JacksonJrParser implements JsonParserAdapter {
     @Override
     public ResumableParser createResumableParser(String json, SurfingContext context) {
         try {
-            final JsonParser jp = this.json.createParser(json);
+            final JsonParser jp = this.jsonFactory.createParser(ObjectReadContext.empty(), json);
             return createResumableParser(jp, context);
         } catch (Exception e) {
             context.getConfig().getErrorHandlingStrategy().handleParsingException(e);
@@ -284,7 +275,7 @@ public class JacksonJrParser implements JsonParserAdapter {
     @Override
     public ResumableParser createResumableParser(InputStream json, SurfingContext context) {
         try {
-            final JsonParser jp = this.json.createParser(json);
+            final JsonParser jp = this.jsonFactory.createParser(ObjectReadContext.empty(), json);
             return createResumableParser(jp, context);
         } catch (Exception e) {
             context.getConfig().getErrorHandlingStrategy().handleParsingException(e);
@@ -295,9 +286,7 @@ public class JacksonJrParser implements JsonParserAdapter {
     @Override
     public NonBlockingParser createNonBlockingParser(SurfingContext context) {
         try {
-            NonBlockingByteArrayJsonParser jp = json
-                    .tokenStreamFactory()
-                    .createNonBlockingByteArrayParser(json);
+            var jp = (NonBlockingByteArrayJsonParser) jsonFactory.createNonBlockingByteArrayParser(ObjectReadContext.empty());
             return new JacksonNonblockingParser(jp, context);
         } catch (JacksonException e) {
             context.getConfig().getErrorHandlingStrategy().handleParsingException(e);
