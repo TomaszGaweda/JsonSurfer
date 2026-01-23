@@ -39,7 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 
-public class JacksonJrParser implements JsonParserAdapter {
+public class JacksonCoreParser implements JsonParserAdapter {
 
     private static class JacksonNonblockingParser extends JacksonResumableParser implements NonBlockingParser {
 
@@ -218,11 +218,11 @@ public class JacksonJrParser implements JsonParserAdapter {
     /**
      * Immutable shared instance
      */
-    public static final JacksonJrParser INSTANCE = new JacksonJrParser();
+    public static final JacksonCoreParser INSTANCE = new JacksonCoreParser();
 
     private final JsonFactory jsonFactory;
 
-    public JacksonJrParser() {
+    public JacksonCoreParser() {
         jsonFactory = JsonFactory.builder()
                                  .enable(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER)
                                  .enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS)

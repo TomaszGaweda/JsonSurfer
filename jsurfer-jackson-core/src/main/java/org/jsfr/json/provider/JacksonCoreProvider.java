@@ -32,14 +32,14 @@ import java.util.Map;
 
 import static org.jsfr.json.provider.CastUtil.castJavaObject;
 
-public class JacksonJrProvider implements JsonProvider<Map<Object, Object>, List<Object>, Object> {
+public class JacksonCoreProvider implements JsonProvider<Map<Object, Object>, List<Object>, Object> {
 
     /**
      * Immutable shared instance
      */
-    public static final JacksonJrProvider INSTANCE = new JacksonJrProvider();
+    public static final JacksonCoreProvider INSTANCE = new JacksonCoreProvider();
 
-    public JacksonJrProvider() {
+    public JacksonCoreProvider() {
     }
 
     @Override

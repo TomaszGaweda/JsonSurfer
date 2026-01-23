@@ -39,7 +39,7 @@
         </dependency>
         <dependency>
             <groupId>com.hazelcast.jsurfer</groupId>
-            <artifactId>jsurfer-jackson-jr</artifactId>
+            <artifactId>jsurfer-jackson-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

@@ -27,16 +27,16 @@ package org.jsfr.json;
 import java.util.List;
 import java.util.Map;
 
-import org.jsfr.json.provider.JacksonJrProvider;
+import org.jsfr.json.provider.JacksonCoreProvider;
 import org.junit.Before;
 import org.junit.Ignore;
 
-public class JacksonJrParserTest extends JsonSurferTest<Map<Object, Object>, List<Object>, Object> {
+public class JacksonCoreParserTest extends JsonSurferTest<Map<Object, Object>, List<Object>, Object> {
 
     @Before
     public void setUp() {
-        provider = new JacksonJrProvider();
-        surfer = new JsonSurfer(new JacksonJrParser(), provider);
+        provider = new JacksonCoreProvider();
+        surfer = new JsonSurfer(new JacksonCoreParser(), provider);
     }
 
     @Ignore

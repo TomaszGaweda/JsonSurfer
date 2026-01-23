@@ -24,22 +24,22 @@
 
 package org.jsfr.json;
 
-import org.jsfr.json.provider.JacksonJrProvider;
+import org.jsfr.json.provider.JacksonCoreProvider;
 
 /**
  * Created by Leo on 2017/4/1.
  */
-public final class JsonSurferJacksonJr {
+public final class JsonSurferJacksonCore {
 
     /**
      *
      */
-    public static final JsonSurfer INSTANCE = new JsonSurfer(JacksonJrParser.INSTANCE, JacksonJrProvider.INSTANCE);
+    public static final JsonSurfer INSTANCE = new JsonSurfer(JacksonCoreParser.INSTANCE, JacksonCoreProvider.INSTANCE);
 
-    private JsonSurferJacksonJr() {
+    private JsonSurferJacksonCore() {
     }
 
     public static JsonSurfer createSurfer() {
-      return new JsonSurfer(new JacksonJrParser(), JacksonJrProvider.INSTANCE);
+      return new JsonSurfer(new JacksonCoreParser(), JacksonCoreProvider.INSTANCE);
     }
 }

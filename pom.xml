@@ -194,7 +194,6 @@
                 <configuration>
                     <configLocation>checkstyle/checkstyle.xml</configLocation>
                     <suppressionsLocation>checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
-                    <enableRSS>false</enableRSS>
                     <linkXRef>false</linkXRef>
                     <consoleOutput>true</consoleOutput>
                     <failsOnError>true</failsOnError>
@@ -247,7 +246,7 @@
         <module>jsurfer-core</module>
         <module>jsurfer-gson</module>
         <module>jsurfer-jackson</module>
-        <module>jsurfer-jackson-jr</module>
+        <module>jsurfer-jackson-core</module>
         <module>jsurfer-jsonsimple</module>
         <module>jsurfer-fastjson</module>
         <module>jsurfer-all</module>
