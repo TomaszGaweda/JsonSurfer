@@ -72,25 +72,25 @@ Jackson, FastJson and JsonSimple. Choose one and add to your POM.
 <dependency>
     <groupId>com.hazelcast.jsurfer</groupId>
     <artifactId>jsurfer-gson</artifactId>
-    <version>0.10</version>
+    <version>0.13</version>
 </dependency>
 
 <dependency>
     <groupId>com.hazelcast.jsurfer</groupId>
     <artifactId>jsurfer-jackson</artifactId>
-    <version>0.10</version>
+    <version>0.13</version>
 </dependency>
 
 <dependency>
     <groupId>com.hazelcast.jsurfer</groupId>
     <artifactId>jsurfer-fastjson</artifactId>
-    <version>0.10</version>
+    <version>0.13</version>
 </dependency>
 
 <dependency>
     <groupId>com.hazelcast.jsurfer</groupId>
     <artifactId>jsurfer-jsonsimple</artifactId>
-    <version>0.10</version>
+    <version>0.13</version>
 </dependency>
 
 ```
