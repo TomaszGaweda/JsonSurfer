@@ -83,6 +83,12 @@ Jackson, FastJson and JsonSimple. Choose one and add to your POM.
 
 <dependency>
     <groupId>com.hazelcast.jsurfer</groupId>
+    <artifactId>jsurfer-jackson-core/artifactId>
+    <version>0.13</version>
+</dependency>
+
+<dependency>
+    <groupId>com.hazelcast.jsurfer</groupId>
     <artifactId>jsurfer-fastjson</artifactId>
     <version>0.13</version>
 </dependency>
@@ -119,7 +125,15 @@ or
 ```java
         JsonSurfer surfer = JsonSurferJackson.INSTANCE;
 ```
-3. JsonSimple
+3. Pure Jackson Core (without Databind/Jr.)
+```java
+        JsonSurfer surfer = new JsonSurfer(JacksonCoreParser.INSTANCE, JacksonCoreProvider.INSTANCE);
+```
+or
+```java
+        JsonSurfer surfer = JsonSurferJackson.INSTANCE;
+```
+4. JsonSimple
 ```java
         // use json-simple parser and json-simple provider to deserialize json into json-simple model i.e.org.json.simple.JSONObject or org.json.simple.JSONArray
         JsonSurfer surfer = new JsonSurfer(JsonSimpleParser.INSTANCE, JsonSimpleProvider.INSTANCE);
@@ -128,7 +142,7 @@ or
 ```java
         JsonSurfer surfer = JsonSurferJsonSimple.INSTANCE;
 ```
-4. Fastjson
+5. Fastjson
 ```java
         JsonSurfer surfer = new JsonSurfer(FastJsonParser.INSTANCE, FastJsonProvider.INSTANCE);
 ```
@@ -601,7 +615,7 @@ Output
 ```
 ### Benchmark
 
-* JsonSurfer is fast !!! The benchmark is powered by [JMH](http://openjdk.java.net/projects/code-tools/jmh/)
+* JsonSurfer is fast! The benchmark is powered by [JMH](http://openjdk.java.net/projects/code-tools/jmh/)
 
 ```
 Benchmark                                                       Mode  Cnt       Score       Error  Units
