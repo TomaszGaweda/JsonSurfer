@@ -618,12 +618,13 @@ Output
 * JsonSurfer is fast! The benchmark is powered by [JMH](http://openjdk.java.net/projects/code-tools/jmh/)
 
 ```
-Benchmark                                                       Mode  Cnt       Score       Error  Units
-BenchmarkCollectSingleValue.benchmarkFastjson                  thrpt   10  139772.275      8854.369  ops/s
-BenchmarkCollectSingleValue.benchmarkFastjsonWithJsonSurfer    thrpt   10  699176.961      23396.619  ops/s
-BenchmarkCollectSingleValue.benchmarkGson                      thrpt   10  139394.358      6019.764  ops/s
-BenchmarkCollectSingleValue.benchmarkGsonWithJsonSurfer        thrpt   10  632155.657      15484.499  ops/s
-BenchmarkCollectSingleValue.benchmarkJackson                   thrpt   10  160545.079      7006.525  ops/s
-BenchmarkCollectSingleValue.benchmarkJacksonWithJsonSurfer     thrpt   10  451870.586      13132.576  ops/s
-BenchmarkCollectSingleValue.benchmarkJsonSimpleWithJsonSurfer  thrpt   10  155094.948      4457.502  ops/s
+Benchmark                                                       Mode  Cnt        Score        Error  Units
+BenchmarkCollectSingleValue.benchmarkFastjson                  thrpt   10   461533,522 ±   3138,761  ops/s
+BenchmarkCollectSingleValue.benchmarkFastjsonWithJsonSurfer    thrpt   10  2323381,698 ±  25253,207  ops/s
+BenchmarkCollectSingleValue.benchmarkGson                      thrpt   10   435068,541 ±   4415,979  ops/s
+BenchmarkCollectSingleValue.benchmarkGsonWithJsonSurfer        thrpt   10  2172312,737 ±  24966,221  ops/s
+BenchmarkCollectSingleValue.benchmarkJackson                   thrpt   10   501679,509 ±   4735,419  ops/s
+BenchmarkCollectSingleValue.benchmarkJacksonJrWithJsonSurfer   thrpt   10  2195377,704 ± 118209,621  ops/s
+BenchmarkCollectSingleValue.benchmarkJacksonWithJsonSurfer     thrpt   10  2275083,444 ±  37874,782  ops/s
+BenchmarkCollectSingleValue.benchmarkJsonSimpleWithJsonSurfer  thrpt   10   608842,243 ±  10324,116  ops/s
 ```
