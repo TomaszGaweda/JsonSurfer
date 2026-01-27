@@ -131,7 +131,7 @@ or
 ```
 or
 ```java
-        JsonSurfer surfer = JsonSurferJackson.INSTANCE;
+        JsonSurfer surfer = JsonSurferJacksonCore.INSTANCE;
 ```
 4. JsonSimple
 ```java
